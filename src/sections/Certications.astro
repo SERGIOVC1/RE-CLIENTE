@@ -1,0 +1,31 @@
+---
+import * as CONTENT from "../pages/content.json"; 
+// Importa un archivo JSON que contiene datos para las secciones como "about", "education", etc.
+
+import AccordionLayout from "../layouts/AccordionLayout.astro"; 
+// Importa un componente de diseño que crea secciones desplegables.
+
+---
+<!-- Sección "Certifications" -->
+<AccordionLayout title={"Certifications"} icon={"carbon:certificate"}>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {CONTENT.certificates.map((item) => (
+        <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 hover:shadow-xl transition-shadow">
+          <h3 class="text-xl font-semibold text-gray-800">{item.title}</h3>
+          <p class="text-sm text-gray-500">{item.issued}</p>
+          <p class="mt-2 text-gray-600">{item.org}</p>
+          <p class="mt-4 text-gray-700">{item.description}</p>
+          {item.source && (
+            <a
+              href={item.source}
+              target="_blank"
+              class="mt-4 text-blue-500 hover:text-blue-700 underline"
+            >
+              {item.source_name || "View Certificate"}
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </AccordionLayout>
+</ul>

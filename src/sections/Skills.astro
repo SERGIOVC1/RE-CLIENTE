@@ -1,0 +1,40 @@
+---
+import * as CONTENT from "../pages/content.json";
+import AccordionLayout from "../layouts/AccordionLayout.astro";
+---
+
+<!-- Sección "Skills" -->
+<AccordionLayout title={"Skills"} icon={"mdi:trophy-award"}>
+  {Object.entries(CONTENT.skills).map(([category, skills]) => (
+    <div class="mb-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">{category}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {skills.map((skill) => (
+          <div class="bg-white shadow-lg rounded-lg border-2 border-gray-300 p-4 flex flex-col items-center text-center hover:border-black hover:shadow-xl transition-all">
+            
+            <!-- Imagen del skill -->
+            <img
+              src={skill.image}
+              alt={`Logo de ${skill.title}`}
+              class="w-16 h-16 object-contain mb-4"
+            />
+
+            <!-- Imagen del nivel de conocimiento -->
+            {skill.level && (
+              <img
+                src={skill.level} 
+                alt={`Nivel de ${skill.title}`}
+                class="w-12 h-12 object-contain mb-2"
+              />
+            )}
+
+            <!-- Título y descripción del skill -->
+            <h3 class="text-lg font-semibold text-gray-800">{skill.title}</h3>
+            <p class="text-sm text-gray-500">{skill.year}</p>
+            <p class="mt-2 text-gray-600">{skill.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</AccordionLayout>

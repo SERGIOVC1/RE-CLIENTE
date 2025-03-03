@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true, // Habilita la importación de archivos JSON
+    "esModuleInterop": true,
+    "strict": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "types": []
+  }
+}
