@@ -1,0 +1,138 @@
+{
+	"profile": {
+	  "name": "Sergio Velasco Carballido",
+	  "designation": "Software Developer",
+	  "location": "Sevilla, Spain"
+	  
+	 
+	},
+	"about": "I am Sergio Velasco Carballido, a passionate web developer with a strong background in front-end and back-end technologies. With several years of experience, I thrive on solving complex problems and creating user-centric web applications. I aim to bring innovative solutions to every project I work on.",
+	"education": [
+	  {
+		"from": "2019",
+		"to": "2021",
+		"institute": "I.E.S San Fernando",
+		"course": "Bachillerato",
+		"location": "Sevilla, Spain",
+		"source_name": "I.E.S San Fernando",
+		"source": "https://iessanfernando.es/"
+	  },
+	  {
+		"from": "2012",
+		"to": "2016",
+		"institute": "I.E.S San Fernando",
+		"course": "E.S.O",
+		"location": "Sevilla, Spain",
+		"source_name": "I.E.S San Fernando",
+		"source": "https://iessanfernando.es/"
+
+	  }
+	],
+	"work": [
+	  {
+		"from": "2020",
+		"to": "2021",
+		"role": "Warehouse manager",
+		"location": "Sevilla, Spain",
+		"skills": "Stock tracking, reorder planning, waste reduction.",
+		"image": "/public/almacen.jpg"
+		
+	  },
+	  {
+		"from": "2020",
+		"to": "2022",
+		"role": "Transport Assistant – Real Estate",
+		"location": "Sevilla, Spain",
+		"skills": "reorder planning",
+		"image": "/public/Transporte.jpg"
+	  },
+	  {
+		"from": "2022",
+		"to": "Present",
+		"role": "Receptionist – Hotel Services (Vincci La Rábida)",
+		"location": "Sevilla, Spain",
+		"skills": "Good management",
+		"image": "/public/Hotel.jpg"
+	  }
+	],
+	
+	"contact": [
+	  {
+		"source_name": "NumberPhone",
+		"source": "658238783"
+	  },
+	  {
+		"source_name": "Email",
+		"source": "sergio.velasco@a.vedrunasevillasj.es"
+	  },
+	  {
+		"source_name": "Lindedin",
+		"source": "https://www.linkedin.com/in/sergio-velasco-carballido-b6460624a/"
+	  }
+	],
+	"certificates": [
+	  {
+		"issued": "2025",
+		"title": "Software Developer",
+		"org": "Santa Joaquina de Vedruna",
+		"description": "Certification in Certification in web application development.",
+		"source_name": "Certificate",
+		"source":"https://vedrunasevilla.org/"
+	  }
+	],
+	"references": [
+	  {
+		"date": "2024",
+		"title": "**Joaquín Pérez**",
+		"description": "Team Leader, Tech Solutions Inc.",
+		"source_name": "Email",
+		"source": "joaquin.borrego@vedruna.es"
+	  },
+	  {
+		"date": "2024",
+		"title": "**José Carlos **",
+		"description": "Operations Manager, Real Estate Logistics",
+		"source_name": "Email",
+		"source": "jose.moreno@vedruna.es"
+	  }
+	],
+	"skills": [
+  {
+    "title": "HTML",
+    "year": "2024",
+    "description": "Markup Language",
+    "image": "../public/html.jpg"
+  },
+  {
+    "title": "CSS",
+    "year": "2024",
+    "description": "Styling Language",
+    "image": "../public/css.png"
+  },
+  {
+    "title": "Java",
+    "year": "2024",
+    "description": "Object-Oriented Programming Language",
+    "image": "../public/JAVA.jpg"
+  },
+  {
+    "title": "JavaScript",
+    "year": "2024",
+    "description": "Dynamic Programming Language",
+    "image": "../public/JS.jpg"
+  },
+  {
+    "title": "React",
+    "year": "2024",
+    "description": "JavaScript Library for Building User Interfaces",
+    "image": "../public/REACT.jpg"
+  },
+  {
+    "title": "Astro",
+    "year": "2024",
+    "description": "Modern Static Site Generator",
+    "image": "../public/ASTRO.png"
+  }
+]
+  }
+  
