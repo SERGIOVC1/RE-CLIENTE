@@ -1,0 +1,28 @@
+---
+import * as CONTENT from "../pages/content.json"; 
+// Importa un archivo JSON que contiene datos para las secciones como "about", "education", etc.
+
+import AccordionLayout from "../layouts/AccordionLayout.astro"; 
+// Importa un componente de diseño que crea secciones desplegables.
+
+---
+ <!-- Sección "Work" -->
+ <AccordionLayout title={"Work"} icon={"ic:baseline-work-outline"}>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {CONTENT.work.map((item) => (
+        <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 hover:shadow-xl transition-shadow">
+          <!-- Imagen representativa del trabajo -->
+          <img 
+            src={item.image} 
+            alt={item.role} 
+            class="w-full h-40 object-cover rounded-lg mb-4"
+          />
+          <!-- Información del trabajo -->
+          <h3 class="text-xl font-semibold text-gray-800">{item.role}</h3>
+          <p class="text-sm text-gray-500">{`${item.from} - ${item.to}`}</p>
+          <p class="mt-2 text-gray-600">{item.location}</p>
+          <p class="mt-4 text-gray-700">{item.skills}</p>
+        </div>
+      ))}
+    </div>
+  </AccordionLayout>

@@ -1,0 +1,26 @@
+---
+import * as CONTENT from "../pages/content.json"; 
+// Importa un archivo JSON que contiene datos para las secciones como "about", "education", etc.
+
+import AccordionLayout from "../layouts/AccordionLayout.astro"; 
+// Importa un componente de diseño que crea secciones desplegables.
+
+
+---
+
+  <!-- Sección "About" -->
+  <AccordionLayout title={"About"} icon={"mdi:account-badge-outline"}>
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <!-- Imagen de perfil -->
+      <img 
+        src="../public/profile2.png" 
+        alt="Profile Picture" 
+        class="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-md"
+      />
+      <!-- Texto descriptivo -->
+      <div class="text-center sm:text-left">
+        {CONTENT.about} 
+        <!-- Muestra el contenido "about" del archivo JSON -->
+      </div>
+    </div>
+  </AccordionLayout>

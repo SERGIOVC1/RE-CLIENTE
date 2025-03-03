@@ -1,0 +1,177 @@
+---
+export const prerender = false; // Asegura que el código se ejecute en el cliente
+---
+<script>
+  // Modo de prueba. Cambiar a `false` cuando se despliegue en producción.
+  const testMode = true;
+
+  // Escucha el evento `load` para ejecutar el código una vez que la página esté completamente cargada.
+  window.addEventListener("load", () => {
+    // Definición del tipo Project para representar los proyectos.
+    type Project = {
+      id: number; // ID único del proyecto.
+      name: string; // Nombre del proyecto.
+      description: string; // Descripción del proyecto.
+      start_date: string; // Fecha de inicio del proyecto.
+      picture: string; // URL de la imagen del proyecto.
+      repository_url?: string; // URL opcional del repositorio del proyecto.
+    };
+
+    // Selección de elementos HTML necesarios para la funcionalidad.
+    const projectsContainer = document.querySelector(".projects-section") as HTMLElement | null;
+    const dynamicProjectsContainer = document.querySelector("#dynamic-projects-container") as HTMLElement | null;
+    const techButtonsContainer = document.querySelector("#tech-buttons-container") as HTMLElement | null;
+   
+    const prevButton = document.querySelector(".prev-button") as HTMLButtonElement | null;
+    const nextButton = document.querySelector(".next-button") as HTMLButtonElement | null;
+    const paginationSpan = document.querySelector(".pagination span") as HTMLElement | null;
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+   
+
+    // Validar si todos los elementos necesarios existen en el DOM.
+    if (
+      !projectsContainer ||
+      !dynamicProjectsContainer ||
+      !techButtonsContainer ||
+      !prevButton ||
+      !nextButton ||
+      !paginationSpan ||
+      !form
+    ) {
+      console.error("One or more elements not found."); // Mensaje de error si falta algún elemento.
+      return; // Detener ejecución si los elementos requeridos no están disponibles.
+    }
+
+    // Variables de estado para la paginación y los filtros.
+    let currentPage: number = parseInt(projectsContainer.getAttribute("data-current-page") || "0", 10); // Página actual.
+    let totalPages: number = 1; // Total de páginas.
+    const apiUrl: string = "http://localhost:8080/api/v1/projects"; // URL base de la API.
+    let selectedTech: string | null = null; // Tecnología seleccionada para filtrar.
+
+    // Actualizar la información de paginación en el DOM.
+    const updatePaginationInfo = (): void => {
+      paginationSpan.textContent = `Page ${currentPage + 1} of ${totalPages}`; // Mostrar página actual y total.
+      prevButton.disabled = currentPage === 0; // Deshabilitar botón "Anterior" en la primera página.
+      nextButton.disabled = currentPage + 1 >= totalPages; // Deshabilitar botón "Siguiente" en la última página.
+    };
+
+    // Validar si un objeto cumple con el tipo `Project`.
+    const isValidProject = (data: any): data is Project => {
+      return (
+        typeof data.id === "number" &&
+        typeof data.name === "string" &&
+        typeof data.description === "string" &&
+        typeof data.start_date === "string" &&
+        typeof data.picture === "string"
+      );
+    };
+
+    // Función para obtener proyectos desde la API.
+    const fetchProjects = async (
+      page: number = 0, // Página a solicitar.
+      search: string = "", // Término de búsqueda.
+      tech: string | null = null // Tecnología seleccionada.
+    ): Promise<void> => {
+      // Construir la URL de la API según los filtros.
+      const url: string = tech
+        ? `${apiUrl}/tec/${tech}`
+        : search.length >= 3
+        ? `${apiUrl}/${search}`
+        : `${apiUrl}?size=3&page=${page}`;
+
+      try {
+        const response = await fetch(url); // Hacer la solicitud a la API.
+        if (!response.ok) throw new Error(`Failed to fetch projects: ${response.status}`); // Manejar errores HTTP.
+        const data = await response.json(); // Convertir respuesta en JSON.
+
+        console.log("API Response:", data); // Log de la respuesta para debugging.
+
+        let projects: Project[] = [];
+        if (Array.isArray(data.data)) {
+          // Si `data` es un array, mapear los elementos a proyectos.
+          projects = data.data.map((item: any) => mapToProject(item));
+        } else if (data.data && typeof data.data === "object") {
+          // Si `data` es un objeto único, convertirlo a un array.
+          projects = [mapToProject(data.data)];
+        } else if (Array.isArray(data.content)) {
+          // Si la respuesta es paginada, mapear el contenido.
+          projects = data.content.map((item: any) => mapToProject(item));
+          totalPages = data.totalPages || 1; // Actualizar total de páginas.
+        }
+
+        renderProjects(projects, page, totalPages); // Renderizar los proyectos obtenidos.
+      } catch (error) {
+        console.error("Error fetching projects:", error); // Log de error.
+        dynamicProjectsContainer.innerHTML = "<p>Error loading projects</p>"; // Mensaje de error en el DOM.
+      }
+    };
+
+    // Convertir un objeto en un proyecto válido.
+    const mapToProject = (item: any): Project => ({
+      id: item.id || 0, // ID del proyecto.
+      name: item.name || "Unnamed Project", // Nombre o predeterminado.
+      description: item.description || "No Description Available", // Descripción o predeterminada.
+      start_date: item.start_date || "Unknown Start Date", // Fecha de inicio o predeterminada.
+      picture: item.picture || "https://via.placeholder.com/150", // Imagen o predeterminada.
+      repository_url: item.repository_url || null, // URL del repositorio o null.
+    });
+
+    // Renderizar los proyectos en el contenedor.
+    const renderProjects = (projects: Project[], page: number, totalPages: number): void => {
+      currentPage = page; // Actualizar página actual.
+
+      // Crear HTML para cada proyecto.
+      const projectList: string = projects
+        .map((project: Project) => renderProjectCard(project, testMode))
+        .join("");
+
+      dynamicProjectsContainer.innerHTML = projectList; // Insertar proyectos en el contenedor.
+      updatePaginationInfo(); // Actualizar paginación.
+    };
+
+    // Crear la tarjeta HTML para un proyecto.
+    const renderProjectCard = (project: Project, test: boolean): string => {
+      const { id, name, description, start_date, picture, repository_url } = project;
+
+      return `
+        <div class="bg-white shadow-md rounded-lg p-4 flex flex-col sm:flex-row gap-4 hover:shadow-lg transition-shadow border-4 border-black">
+          <img 
+            src="${picture}" 
+            alt="${name}" 
+            class="w-full sm:w-1/4 h-32 object-cover rounded-lg shadow-md"
+          >
+          <div class="flex flex-col flex-grow">
+            <h3 class="text-lg font-semibold text-gray-800">${name}</h3>
+            <p class="text-sm text-gray-500 mb-2">${start_date}</p>
+            <p class="text-gray-600 mb-4">${description}</p>
+            ${
+              repository_url
+                ? `<a href="${repository_url}" target="_blank" class="text-blue-500 hover:text-blue-700 underline">
+                    View Repository
+                  </a>`
+                : `<p class="text-sm text-gray-400 italic">No repository available</p>`
+            }
+          </div>
+        </div>
+      `;
+    };
+
+   
+
+    
+    
+
+    // Eventos para buscar, navegar y manejar entrada.
+  
+    prevButton.addEventListener("click", () => {
+      if (currentPage > 0) fetchProjects(currentPage - 1, "", selectedTech); // Página anterior.
+    });
+    nextButton.addEventListener("click", () => {
+      if (currentPage + 1 < totalPages) fetchProjects(currentPage + 1, "", selectedTech); // Página siguiente.
+    });
+
+   
+    // Cargar proyectos al inicio.
+    fetchProjects(currentPage);
+  });
+</script>
